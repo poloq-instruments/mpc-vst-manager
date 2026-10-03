@@ -10,7 +10,7 @@ removes plugins, with one MPC restart per batch. Working on an MPC One (Gen1, MP
 1. Add **Plugin Manager** to a plugin track. It loads the catalog and reads what is installed.
 2. **DISCOVER** lists every catalog plugin you can install as a download (build-it-yourself ports are left out:
    they aren't plug and play), **INSTALLED** what is on this MPC, **UPDATES** what has a newer version (the amber
-   count). **All / Instruments / Effects** filter the list; the arrows page through it, three plugins at a time.
+   count). **All / Instruments / Effects / Addins** filter the list; the arrows page through it, three plugins at a time.
 3. Each card shows the plugin's author, style and tags, its version, download size and checksum, and badges:
    **Stable**/**Beta**, **Tested: <device>**, **High CPU** (the catalog's CPU bench said WARN or FAIL) and **Old install**
    (installed the old way, outside a plugin folder).
@@ -21,6 +21,11 @@ removes plugins, with one MPC restart per batch. Working on an MPC One (Gen1, MP
    each package's own `install.sh` / `uninstall.sh` runs, and MPC starts again. A failed download changes nothing and
    offers **RETRY**.
 
+**Addins** (catalog kind `addin`: libraries MPC loads at start, such as a remote screen or USB audio; see
+mpc-vst-plugins' `docs/ADDINS.md`) are installed and removed the same way. Each lives in its own folder under
+`/data/mpc-addins/<id>`, is removed with the `uninstall.sh` kept there, and never touches `MPC.settings`. An addin
+folder without `uninstall.sh` was made by hand: it shows **Old install** and can be updated, not removed.
+
 Logs: `/tmp/pluginmgr/manager.log`, `/tmp/pluginmgr/apply.log`. Device report: `/tmp/pluginmgr/device.txt`.
 
 ## How it works
@@ -29,6 +34,7 @@ Logs: `/tmp/pluginmgr/manager.log`, `/tmp/pluginmgr/apply.log`. Device report: `
 - Nothing about the model is hard-coded: install locations come from `SynthContentLocations` in `MPC.settings`
   (internal, writable, exec-allowed storage first; never `/usr`, exFAT/noexec cards or a nearly full disk), and what is
   installed comes from the `pluginList-arm` entries (uid, `file=`) plus the `mpc-plugin.json` in each plugin folder.
+  Installed addins come from the `addin.manifest` in each folder under `/data/mpc-addins`.
 - The screen is a normal MPC plugin skin (`vst/layout.conf`, artwork drawn by `vst/make_images.py`). Every value it shows
   or switches on (button states, badges, banners, the progress bar) is a parameter the engine computes; the wrapper's
   `HAS_DISPLAY_REV` tells MPC when they change.
@@ -42,7 +48,7 @@ upstream (and the layout options this skin uses), use the `poloq-dev` branch of 
 ```
 python3 vst/make_images.py   # only after changing the artwork
 vst/build.sh      # vst/build/plugin_manager.so, the skin, the plugin-list entry
-tests/run.sh      # offline: wrapper host test + fake devices (tests/devices/*.sh)
+tests/run.sh      # offline: wrapper host test + fake devices (tests/devices/*.sh) + addins (tests/fixture.py)
 python3 ../mpc-vst-plugins/tools/release.py --so vst/build/plugin_manager.so \
   --skin "vst/build/skin/poloq - VST - Plugin Manager" --entry vst/build/pluginlist-entry.xml --version 1.0.0 \
   --repo poloq-instruments/mpc-vst-manager --license MIT \

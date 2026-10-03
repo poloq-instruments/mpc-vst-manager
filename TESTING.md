@@ -16,6 +16,7 @@ MPC restarts. Add **Plugin Manager** to a plugin track.
 | 4 | **APPLY** (now *RESTART & APPLY*) | MPC restarts by itself within ~10 s; the new plugin is in the plugin list and plays |
 | 5 | Reopen the manager | That plugin shows **INSTALLED** |
 | 6 | **⋮** on it, **REMOVE**, **APPLY** twice | MPC restarts; the plugin is gone from the list |
+| 7 | **Addins** filter: **INSTALL** one, **APPLY** twice; reopen, **⋮**, **REMOVE**, **APPLY** twice | A folder appears under `/data/mpc-addins/` and the addin works after the restart; after the removal the folder is gone |
 
 If a red banner says *Can't install on this MPC* (`No install location`, `No systemd-run`, `No unzip`, ...), stop there and
 report it: that is exactly what we need to know.
