@@ -2,7 +2,7 @@
 
 A VST2 "instrument" for the MPC OS plugin host that is really an app: it lists the
 [mpc-vst-plugins catalog](https://sd88me.github.io/mpc-vst-plugins/) on the MPC screen and installs, updates and
-removes plugins, with one MPC restart per batch. Working on an MPC One (Gen1, MPC OS 3.9.1).
+removes plugins, with one MPC restart per batch. Working on an MPC One and an MPC Key 37 (Gen1, MPC OS 3.9.1).
 
 ![Plugin Manager on an MPC One](docs/screenshot.png)
 
@@ -66,6 +66,7 @@ works from the restart that installs it). Needs mpc-vst-plugins PR #90 until it 
 | Device | Status |
 |---|---|
 | MPC One (Gen1, MPC OS 3.9.1) | works: install, update, remove, progress, restart |
+| MPC Key 37 (Gen1, MPC OS 3.9.1) | works: install, remove, progress, restart, addins, browser tile ([report](docs/tests/mpc-key37-2026-10-03.md)) |
 | Force (Gen1) | expected to work (same userland; `/sdcard/Synths` layout covered by an offline test); needs a device test |
 | MPC Live / Live II / X / Key 61 (Gen1) | expected to work; needs a device test |
 | Gen2 (64-bit, e.g. Live III) | not yet: needs an aarch64 build of this plugin and of the catalog plugins |

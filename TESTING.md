@@ -31,6 +31,8 @@ Open an issue or PR with:
   ```
   `device.txt` lists your install locations, tools, and registered plugins (names and paths only).
 
+Reports so far are in `docs/tests/`; `tested.json` lists the devices that passed.
+
 ## 4. A fix for your model (PR)
 Most model differences are paths. Add a fake device to `tests/devices/<model>.sh` that recreates your `MPC.settings`
 layout (locations and a few `pluginList-arm` entries, from your `device.txt`), make `tests/run.sh` pass with your
