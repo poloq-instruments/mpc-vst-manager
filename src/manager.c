@@ -8,7 +8,11 @@
  * (dlopen, nothing bundled); sha256sum and unzip run as children with a clean environment (MPC's LD_PRELOAD
  * dropped). Applying writes a script that stops MPC, runs each package's own install.sh / uninstall.sh and starts
  * MPC again; it is launched with systemd-run so it lives outside acvs.service's cgroup and survives the stop
- * (docs/NOTES.md, "Restarting MPC from inside a plugin via systemd-run"). The plugin makes no sound. */
+ * (docs/NOTES.md, "Restarting MPC from inside a plugin via systemd-run"). The plugin makes no sound.
+ *
+ * Addins (catalog kind "addin": libraries MPC loads at start through LD_PRELOAD, docs/ADDINS.md) go through the same
+ * flow. One installs to its own folder under ADDINS_DIR with the install.sh in its zip; what is installed is read from
+ * the addin.manifest in each folder; a removal runs the uninstall.sh the folder carries. MPC.settings is not touched. */
 #define _GNU_SOURCE   /* dladdr */
 #include <dirent.h>
 #include <dlfcn.h>
@@ -40,10 +44,15 @@ typedef struct {
     void (*process)(void *inst, const int16_t *in_lr, int16_t *out_lr, int frames);
 } mpc_engine_t;
 
-#define CATALOG_URL "https://sd88me.github.io/mpc-vst-plugins/catalog.json"
+#ifndef CATALOG_URL
+#define CATALOG_URL "https://sd88me.github.io/mpc-vst-plugins/catalog.json"   /* tests: a file:// fixture */
+#endif
 #define WORK "/tmp/pluginmgr"
 #define MAXPKG 64
 #define ROWS 3      /* plugin cards per page */
+#ifndef ADDINS_DIR
+#define ADDINS_DIR "/data/mpc-addins"   /* one folder per addin id, as mpc-vst-plugins' addin installer lays them out */
+#endif
 #ifndef FS_ANY
 #define FS_ANY 0   /* tests: accept the container's overlay filesystem as internal storage */
 #endif
@@ -53,9 +62,10 @@ typedef struct {
     char style[32], tags[96], channel[16], cpu[8], tested[48];   /* the card's badges and meta line */
     long long size;
     char installed[24];   /* "" not installed, "?" installed (version unknown), else the version */
-    char synths[200];     /* the Synths folder it is installed in */
+    char synths[200];     /* the Synths folder it is installed in; an addin: its own folder under ADDINS_DIR */
     char uids[4][16];     /* build-yourself components' VST uids (catalog "components") */
-    int legacy;           /* registered, but not from a plugin folder (old /sdcard/vst layout) */
+    int legacy;           /* registered, but not from a plugin folder (old /sdcard/vst layout); an addin folder
+                           * without uninstall.sh (made by hand): either is updated in place, not removed */
     int queued;           /* 0, Q_INSTALL, Q_REMOVE */
     char dir[256];        /* unpacked package (install.sh / uninstall.sh), set while preparing */
 } pkg_t;
@@ -70,7 +80,7 @@ typedef struct {
     int quit, job, busy, ready;   /* ready: a prepared apply.sh waits for the second APPLY press */
     pkg_t pkg[MAXPKG];
     int npkg, page, sel, menu;    /* sel, menu: pkg indexes (-1 none); menu = the card showing Reinstall/Remove */
-    int tab, kindf;               /* 0 discover, 1 installed, 2 updates; 0 all, 1 instruments, 2 effects */
+    int tab, kindf;               /* 0 discover, 1 installed, 2 updates; 0 all, 1 instruments, 2 effects, 3 addins */
     int online, loaded, failed;   /* catalog reachable; ever loaded; the last APPLY failed (offer RETRY) */
     int sticky, status_kind;      /* status set by the worker or an action (else the queue summary); 0 ok, 1 warn, 2 error */
     int downloading;
@@ -121,6 +131,7 @@ static void logf_(const char *fmt, ...) {
 
 static int is_dir(const char *p) { struct stat st; return stat(p, &st) == 0 && S_ISDIR(st.st_mode); }
 static int is_file(const char *p) { struct stat st; return stat(p, &st) == 0 && S_ISREG(st.st_mode); }
+static int is_addin(const pkg_t *p) { return !strcmp(p->kind, "addin"); }
 static int safe(const char *s) { return !strpbrk(s, "'\\\n`$"); }   /* fits in a single-quoted shell word */
 
 /* A child with MPC's LD_PRELOAD and the rest of its environment dropped; output goes to the log. */
@@ -460,11 +471,14 @@ static const char *top_member(const char *k, const char *v, void *ud) {
  * missing tools are reported on screen and in WORK/device.txt, which testers attach to a report. */
 
 typedef struct { char name[64], uid[16], file[256]; } entry_t;
+typedef struct { char id[48], version[24], folder[256]; int removable; } addin_t;   /* an installed addin folder */
 struct device {
     char settings[200], base[200], state[220], arch[32], target[200], problem[24], keys[160], via[48];
     char loc[8][200];
-    int nloc, nent, systemd_run, cgroup2;
+    char addins[64];   /* ADDINS_DIR when its parent is a writable folder, else "" (no addin can be installed) */
+    int nloc, nent, naddin, systemd_run, cgroup2;
     entry_t ent[128];
+    addin_t addin[32];
 };
 
 static int on_path(const char *tool) {
@@ -623,6 +637,41 @@ static void probe_device(device_t *d) {
     snprintf(d->state, sizeof d->state, "%s/.pluginmgr-installed", d->base);
     d->systemd_run = on_path("systemd-run");
     d->cgroup2 = is_file("/sys/fs/cgroup/cgroup.procs");
+    /* addins: one folder per id under ADDINS_DIR, each with the addin.manifest the installer wrote (ADDIN_ID,
+     * ADDIN_VERSION, plain shell assignments) and a copy of its uninstall.sh; a folder without one was made by hand */
+    char parent[64];
+    snprintf(parent, sizeof parent, "%s", ADDINS_DIR);
+    char *ps = strrchr(parent, '/');
+    if (ps && ps != parent) *ps = 0;
+    if (is_dir(parent) && access(parent, W_OK) == 0) snprintf(d->addins, sizeof d->addins, "%s", ADDINS_DIR);
+    DIR *ad = d->addins[0] ? opendir(d->addins) : NULL;
+    while (ad && (e = readdir(ad)) && d->naddin < 32) {
+        addin_t *a = &d->addin[d->naddin];
+        char mp[300];
+        if (e->d_name[0] == '.' || !safe(e->d_name)) continue;
+        snprintf(a->folder, sizeof a->folder, "%s/%s", d->addins, e->d_name);
+        snprintf(mp, sizeof mp, "%s/addin.manifest", a->folder);
+        char *mf = slurp(mp, 64 << 10);
+        if (!mf) continue;
+        a->id[0] = a->version[0] = 0;
+        for (char *l = mf; l; ) {
+            char *nl = strchr(l, '\n'), *val = NULL, *out = NULL;
+            size_t n = 0;
+            if (!strncmp(l, "ADDIN_ID=", 9)) val = l + 9, out = a->id, n = sizeof a->id;
+            else if (!strncmp(l, "ADDIN_VERSION=", 14)) val = l + 14, out = a->version, n = sizeof a->version;
+            if (val) {
+                size_t len = strcspn(val, "\r\n");
+                if (len >= 2 && (*val == '"' || *val == '\'')) val++, len -= 2;   /* the installer quotes values */
+                snprintf(out, n, "%.*s", (int)len, val);
+            }
+            l = nl ? nl + 1 : NULL;
+        }
+        snprintf(mp, sizeof mp, "%s/uninstall.sh", a->folder);
+        a->removable = is_file(mp);
+        free(mf);
+        if (a->id[0] && safe(a->id)) d->naddin++;
+    }
+    if (ad) closedir(ad);
     const char *pb = !d->settings[0] ? "No MPC.settings"
                    : !d->target[0] ? "No install location"
                    : !on_path("systemctl") ? "No systemctl"
@@ -649,6 +698,9 @@ static void write_report(const device_t *d) {
     own_synths(own, sizeof own);
     fprintf(f, "manager folder: %s\ninstall target: %s%s%s%s\n", own[0] ? own : "(unknown)", d->target[0] ? d->target : "(none)",
             d->via[0] ? "  (from " : "", d->via, d->via[0] ? ")" : "");
+    fprintf(f, "addins: %s\n", d->addins[0] ? d->addins : "(" ADDINS_DIR " not usable)");
+    for (int i = 0; i < d->naddin; i++)
+        fprintf(f, "addin: %s %s %s%s\n", d->addin[i].id, d->addin[i].version, d->addin[i].folder, d->addin[i].removable ? "" : "  (no uninstall.sh)");
     fprintf(f, "tools: systemctl=%d systemd-run=%d cgroup2=%d unzip=%d sha256sum=%d libcurl=%d ca-bundle=%d\n",
             on_path("systemctl"), d->systemd_run, d->cgroup2, on_path("unzip"), on_path("sha256sum"), curl_load(),
             is_file("/etc/ssl/certs/ca-certificates.crt"));
@@ -670,7 +722,8 @@ static const char *manifest_member(const char *k, const char *v, void *ud) {
 
 /* Match each catalog plugin to a plugin-list entry: by the mpc-plugin.json id in its folder, else a component uid,
  * else the name. The Synths folder is the entry's file= minus "<vendor> - VST - <name>/<so>"; an entry whose .so is
- * not in such a folder is an old-layout install (synths left empty, shown as "old"). */
+ * not in such a folder is an old-layout install (synths left empty, shown as "old"). An addin is matched by id to
+ * the folders under ADDINS_DIR; one without uninstall.sh is shown as "old" too (it can be updated, not removed). */
 static void scan_installed(const device_t *d, pkg_t *pkg, int n) {
     for (int i = 0; i < n; i++) pkg[i].installed[0] = pkg[i].synths[0] = 0, pkg[i].legacy = 0;
     for (int k = 0; k < d->nent; k++) {
@@ -686,6 +739,7 @@ static void scan_installed(const device_t *d, pkg_t *pkg, int n) {
         if (js) { jobject(js, manifest_member, &mf); free(js); }
         for (int i = 0; i < n; i++) {
             pkg_t *p = &pkg[i];
+            if (is_addin(p)) continue;
             int hit = mf.id[0] ? !strcmp(mf.id, p->id) : !strcmp(en->name, p->name);
             for (int c = 0; c < 4 && !hit; c++) hit = p->uids[c][0] && !strcasecmp(p->uids[c], en->uid);
             if (!hit || p->installed[0]) continue;
@@ -694,6 +748,16 @@ static void scan_installed(const device_t *d, pkg_t *pkg, int n) {
             if (base && strstr(base, " - VST - ")) snprintf(p->synths, sizeof p->synths, "%.*s", (int)(base - folder), folder);
             else p->legacy = 1;
         }
+    }
+    for (int i = 0; i < n; i++) {
+        pkg_t *p = &pkg[i];
+        if (!is_addin(p)) continue;
+        for (int k = 0; k < d->naddin; k++)
+            if (!strcmp(d->addin[k].id, p->id) && !p->installed[0]) {
+                snprintf(p->installed, sizeof p->installed, "%s", d->addin[k].version[0] ? d->addin[k].version : "?");
+                snprintf(p->synths, sizeof p->synths, "%s", d->addin[k].folder);
+                p->legacy = !d->addin[k].removable;
+            }
     }
     FILE *f = fopen(d->state, "r");
     char id[64], ver[32];
@@ -767,6 +831,7 @@ static void prepare(mgr_t *m, pkg_t *q) {
     int i;
     for (i = 0; i < nq && !err; i++) {
         pkg_t *p = &q[i];
+        if (is_addin(p) && p->queued == Q_REMOVE) continue;   /* removed by the uninstall.sh in its folder: nothing to fetch */
         if (!p->url[0] || strlen(p->sha) != 64 || !safe(p->id) || !safe(p->name)) { err = "has no download in the catalog"; break; }
         snprintf(path, sizeof path, WORK "/%s.zip", p->id);
         if (download(m, p, path)) { err = "download failed after 3 retries"; break; }
@@ -796,11 +861,22 @@ static void prepare(mgr_t *m, pkg_t *q) {
         for (i = 0; i < nq && !err; i++) {
             pkg_t *p = &q[i];
             /* a remove goes where it is; an update stays where it is if that folder can hold a plugin, else it (and a new
-             * install) goes to the first good SynthContentLocations entry. The installer moves the entry by uid. */
-            const char *synths = p->queued == Q_REMOVE ? p->synths
-                               : p->synths[0] && good_target(p->synths) ? p->synths : m->dev->target;
-            if (!synths[0] || !safe(synths)) { err = "has no install location"; break; }
-            if (p->queued == Q_INSTALL)
+             * install) goes to the first good SynthContentLocations entry. The installer moves the entry by uid.
+             * An addin's folder is ADDINS_DIR/<id>: its installer is told that folder, and its removal runs the
+             * uninstall.sh kept there (-n: MPC is already stopped; no STATE record, the folder's manifest has it). */
+            char target[280];
+            if (is_addin(p) && p->queued == Q_REMOVE) snprintf(target, sizeof target, "%s", p->synths);
+            else if (is_addin(p)) snprintf(target, sizeof target, "%s/%s", m->dev->addins, p->id);
+            else snprintf(target, sizeof target, "%s", p->queued == Q_REMOVE ? p->synths
+                          : p->synths[0] && good_target(p->synths) ? p->synths : m->dev->target);
+            const char *synths = target;
+            if (!synths[0] || !safe(synths) || (is_addin(p) && !m->dev->addins[0])) { err = "has no install location"; break; }
+            if (is_addin(p) && p->queued == Q_INSTALL)
+                fprintf(f, "echo '-- install %s %s'\nsh '%s/install.sh' -y -n -t '%s' && rm -rf '" WORK "/%s' '" WORK "/%s.zip'\n",
+                        p->id, p->latest, p->dir, synths, p->id, p->id);
+            else if (is_addin(p))
+                fprintf(f, "echo '-- remove %s'\nsh '%s/uninstall.sh' -y -n -t '%s'\n", p->id, synths, synths);
+            else if (p->queued == Q_INSTALL)
                 fprintf(f, "echo '-- install %s %s'\nsh '%s/install.sh' -y $(batch '%s/install.sh') -t '%s' && setstate '%s' '%s' && rm -rf '" WORK "/%s' '" WORK "/%s.zip'\n",
                         p->id, p->latest, p->dir, p->dir, synths, p->id, p->latest, p->id, p->id);
             else
@@ -886,6 +962,7 @@ static int visible(const mgr_t *m, int *idx) {
         if (!p->url[0]) continue;
         if (m->kindf == 1 && strcmp(p->kind, "instrument")) continue;
         if (m->kindf == 2 && strcmp(p->kind, "effect")) continue;
+        if (m->kindf == 3 && !is_addin(p)) continue;
         if (m->tab == 1 && !installed(p)) continue;
         if (m->tab == 2 && !has_update(p)) continue;
         idx[n++] = i;
@@ -953,7 +1030,7 @@ static void card_field(const mgr_t *m, int i, const char *f, char *b, int n) {
     else if (!strcmp(f, "state")) snprintf(b, n, "%d", card_state(m, i));
     else if (!strcmp(f, "inst")) snprintf(b, n, "%d", installed(p));
     else if (!strcmp(f, "init")) initials(p->name, b);
-    else if (!strcmp(f, "kindtxt")) snprintf(b, n, "%s", !strcmp(p->kind, "effect") ? "FX" : "INST");
+    else if (!strcmp(f, "kindtxt")) snprintf(b, n, "%s", is_addin(p) ? "ADDIN" : !strcmp(p->kind, "effect") ? "FX" : "INST");
     else if (!strcmp(f, "meta")) {
         char st[32], tg[96];
         spaced(p->style, st, sizeof st);
@@ -1057,7 +1134,8 @@ static void mgr_set_param(void *inst, const char *key, const char *val) {
             } else if (!strcmp(f, "more")) m->menu = m->menu == i ? -1 : i;
             else if (!strcmp(f, "reinstall")) requeue(m, p, Q_INSTALL);
             else if (!strcmp(f, "remove")) {
-                if (p->legacy) { m->menu = -1; say_locked(m, ERR, "%s is an old-style install: update it first, then remove it", p->name); }
+                if (p->legacy && is_addin(p)) { m->menu = -1; say_locked(m, ERR, "%s was installed by hand: update it first, then remove it", p->name); }
+                else if (p->legacy) { m->menu = -1; say_locked(m, ERR, "%s is an old-style install: update it first, then remove it", p->name); }
                 else requeue(m, p, Q_REMOVE);
             }
         }
@@ -1086,12 +1164,12 @@ static int mgr_get_param(void *inst, const char *key, char *b, int n) {
     else if (!strcmp(key, "empty")) snprintf(b, n, "%d", !m->loaded ? (m->online || m->busy == J_REFRESH ? 0 : 1) : nv == 0 ? 2 : 0);
     else if (!strcmp(key, "empty_txt"))
         snprintf(b, n, "%s", m->tab == 2 ? "Everything is up to date" : m->tab == 1 ? "No catalog plugins installed yet"
-                                                                       : "No plugins match this filter");
+                                                                       : m->kindf == 3 ? "No addins in the catalog yet" : "No plugins match this filter");
     else if (!strcmp(key, "nav_prev")) snprintf(b, n, "%d", m->page > 0);
     else if (!strcmp(key, "nav_next")) snprintf(b, n, "%d", m->page + 1 < pages);
     else if (!strcmp(key, "page_txt")) snprintf(b, n, "%d / %d", m->page + 1, pages);
     else if (!strcmp(key, "summary"))
-        snprintf(b, n, "%d plugin%s %s  \xc2\xb7  %d update%s available", nv, nv == 1 ? "" : "s",
+        snprintf(b, n, "%d %s%s %s  \xc2\xb7  %d update%s available", nv, m->kindf == 3 ? "addin" : "plugin", nv == 1 ? "" : "s",
                  m->tab == 1 ? "installed" : m->tab == 2 ? "to update" : "available", upd, upd == 1 ? "" : "s");
     else if (!strcmp(key, "status")) { if (m->sticky) snprintf(b, n, "%s", m->status); else queue_text(m, b, n); }
     else if (!strcmp(key, "status_kind")) snprintf(b, n, "%d", m->sticky ? m->status_kind : OK);
