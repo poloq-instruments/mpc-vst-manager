@@ -56,6 +56,12 @@ python3 ../mpc-vst-plugins/tools/release.py --so vst/build/plugin_manager.so \
 ```
 Install the zip like any catalog plugin (`sh install.sh`, see its INSTALL.md).
 
+The Instruments-browser tile is `vst/art/tile.svg`, drawn by `vst/art/gen_tile.py` in the skin's palette with the
+wordmark in Titillium Web (SIL OFL) converted to outlines, and rendered to `vst/art/tile.png` (270×110) with
+`rsvg-convert -w 270 -h 110 vst/art/tile.svg -o vst/art/tile.png`. vst.json's `"tile"` makes gen_vst.py ship it in the
+skin folder with a Default preset, so tapping the tile opens the manager (MPC indexes presets at start, so the tile
+works from the restart that installs it). Needs mpc-vst-plugins PR #90 until it is merged.
+
 ## Compatibility
 | Device | Status |
 |---|---|
