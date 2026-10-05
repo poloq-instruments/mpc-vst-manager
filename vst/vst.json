@@ -2,7 +2,7 @@
   "name": "Plugin Manager",
   "vendor": "poloq",
   "uid": "PlMg",
-  "version": 1001,
+  "version": 1010,
   "so": "plugin_manager.so",
   "params": "params.json",
   "layout": "layout.conf",
