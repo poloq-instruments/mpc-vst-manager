@@ -1,5 +1,6 @@
 /* Drives the engine like the screen would (tests/run.sh): waits for the catalog, prints each page of cards with
- * their fields and states, then queues an install and runs APPLY up to the (dry-run) restart. */
+ * their fields and states, then queues an install and runs APPLY up to the (dry-run) restart. With "addins" it
+ * runs the addin flow against the offline fixture instead: update, install and a refused removal. */
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -32,12 +33,20 @@ static void wait_for(const char *key, const char *val) {
   printf("  (timeout waiting for %s=%s)\n", key, val);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
   e = mpc_engine(); m = e->create(NULL);
   for (int i = 0; i < 60 && !strstr(get("summary"), "available") ; i++) sleep(1);
   sleep(1);
   printf("net=%s problem=%s (%s) empty=%s disk=%s %s upd_badge=%s count=%s\n", get("net"), get("problem"), get("problem_txt"), get("empty"),
          get("disk"), get("disk_txt"), get("upd_badge"), get("upd_count"));
+  if (argc > 1 && !strcmp(argv[1], "addins")) {   /* the offline fixture (tests/fixture.py, tests/addins.sh) */
+    set("kind", "3"); printf("ADDINS\n"); cards();
+    printf("remove alpha (card 1), install beta (card 2), remove gamma (card 3: made by hand, refused)\n");
+    press("r1_more"); press("r1_remove"); press("r2_act"); press("r3_more"); press("r3_remove"); cards();
+    press("apply"); wait_for("apply_state", "3"); cards();
+    press("apply"); sleep(1); cards();
+    e->destroy(m); return 0;
+  }
   printf("DISCOVER\n"); cards(); press("page_next"); cards(); press("page_next"); cards();
   set("tab", "2"); printf("UPDATES\n"); cards();
   set("tab", "1"); printf("INSTALLED\n"); cards();

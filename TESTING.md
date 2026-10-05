@@ -16,6 +16,7 @@ MPC restarts. Add **Plugin Manager** to a plugin track.
 | 4 | **APPLY** (now *RESTART & APPLY*) | MPC restarts by itself within ~10 s; the new plugin is in the plugin list and plays |
 | 5 | Reopen the manager | That plugin shows **INSTALLED** |
 | 6 | **⋮** on it, **REMOVE**, **APPLY** twice | MPC restarts; the plugin is gone from the list |
+| 7 | **Addins** filter: **INSTALL** one, **APPLY** twice; reopen, **⋮**, **REMOVE**, **APPLY** twice | A folder appears under `/data/mpc-addins/` and the addin works after the restart; after the removal the folder is gone |
 
 If a red banner says *Can't install on this MPC* (`No install location`, `No systemd-run`, `No unzip`, ...), stop there and
 report it: that is exactly what we need to know.
@@ -29,6 +30,8 @@ Open an issue or PR with:
   cat /tmp/pluginmgr/device.txt /tmp/pluginmgr/manager.log /tmp/pluginmgr/apply.log
   ```
   `device.txt` lists your install locations, tools, and registered plugins (names and paths only).
+
+Reports so far are in `docs/tests/`; `tested.json` lists the devices that passed.
 
 ## 4. A fix for your model (PR)
 Most model differences are paths. Add a fake device to `tests/devices/<model>.sh` that recreates your `MPC.settings`

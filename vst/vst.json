@@ -22,5 +22,6 @@
       "-ldl",
       "-lm"
     ]
-  }
+  },
+  "tile": "art/tile.png"
 }
