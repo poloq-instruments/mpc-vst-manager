@@ -1,657 +1,6424 @@
 {
- "name": "Plugin Manager",
- "params": [
-  {
-   "key": "tab",
-   "name": "View",
-   "options": [
-    "DISCOVER",
-    "INSTALLED",
-    "UPDATES"
-   ]
-  },
-  {
-   "key": "kind",
-   "name": "Filter",
-   "options": [
-    "All",
-    "Instruments",
-    "Effects",
-    "Addins"
-   ]
-  },
-  {
-   "key": "net",
-   "name": "Network",
-   "options": [
-    "online",
-    "offline"
-   ]
-  },
-  {
-   "key": "disk",
-   "name": "Disk used",
-   "options": [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10"
-   ]
-  },
-  {
-   "key": "disk_txt",
-   "name": "Disk free",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "upd_badge",
-   "name": "Updates badge",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "upd_count",
-   "name": "Updates",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "problem",
-   "name": "Problem",
-   "options": [
-    "no",
-    "yes"
-   ]
-  },
-  {
-   "key": "problem_txt",
-   "name": "Problem text",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "empty",
-   "name": "Empty",
-   "options": [
-    "no",
-    "offline",
-    "empty"
-   ]
-  },
-  {
-   "key": "empty_txt",
-   "name": "Empty text",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "refresh",
-   "name": "Refresh",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "page_prev",
-   "name": "Page <",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "page_next",
-   "name": "Page >",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "nav_prev",
-   "name": "Prev page",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "nav_next",
-   "name": "Next page",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "page_txt",
-   "name": "Page",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "summary",
-   "name": "Summary",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "status",
-   "name": "Status",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "status_kind",
-   "name": "Status kind",
-   "options": [
-    "ok",
-    "warn",
-    "error"
-   ]
-  },
-  {
-   "key": "busy",
-   "name": "Downloading",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "progress",
-   "name": "Progress",
-   "options": [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20"
-   ]
-  },
-  {
-   "key": "update_all",
-   "name": "Update all",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "upd_all",
-   "name": "Update all on",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "apply",
-   "name": "Apply",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "apply_state",
-   "name": "Apply state",
-   "options": [
-    "off",
-    "apply",
-    "preparing",
-    "ready",
-    "retry"
-   ]
-  },
-  {
-   "key": "card1_1",
-   "name": "Plugin 1",
-   "type": "slot",
-   "display": "string"
-  },
-  {
-   "key": "r1_vis",
-   "name": "Card 1 shown",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r1_inst",
-   "name": "Card 1 installed",
-   "options": [
-    "no",
-    "yes"
-   ]
-  },
-  {
-   "key": "r1_init",
-   "name": "Card 1 initials",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_kindtxt",
-   "name": "Card 1 kind",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_meta",
-   "name": "Card 1 meta",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_chan",
-   "name": "Card 1 channel",
-   "options": [
-    "none",
-    "stable",
-    "beta"
-   ]
-  },
-  {
-   "key": "r1_cpu",
-   "name": "Card 1 CPU",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r1_old",
-   "name": "Card 1 old",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r1_tested",
-   "name": "Card 1 tested",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r1_tested_txt",
-   "name": "Card 1 tested on",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_ver",
-   "name": "Card 1 version",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_from",
-   "name": "Card 1 from",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_size",
-   "name": "Card 1 size",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_sha",
-   "name": "Card 1 sha",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r1_state",
-   "name": "Card 1 state",
-   "options": [
-    "none",
-    "install",
-    "update",
-    "installed",
-    "q_install",
-    "q_update",
-    "q_remove",
-    "disabled",
-    "menu"
-   ]
-  },
-  {
-   "key": "r1_act",
-   "name": "Card 1 action",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r1_more",
-   "name": "Card 1 more",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r1_reinstall",
-   "name": "Card 1 reinstall",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r1_remove",
-   "name": "Card 1 remove",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "card2_1",
-   "name": "Plugin 2",
-   "type": "slot",
-   "display": "string"
-  },
-  {
-   "key": "r2_vis",
-   "name": "Card 2 shown",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r2_inst",
-   "name": "Card 2 installed",
-   "options": [
-    "no",
-    "yes"
-   ]
-  },
-  {
-   "key": "r2_init",
-   "name": "Card 2 initials",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_kindtxt",
-   "name": "Card 2 kind",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_meta",
-   "name": "Card 2 meta",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_chan",
-   "name": "Card 2 channel",
-   "options": [
-    "none",
-    "stable",
-    "beta"
-   ]
-  },
-  {
-   "key": "r2_cpu",
-   "name": "Card 2 CPU",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r2_old",
-   "name": "Card 2 old",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r2_tested",
-   "name": "Card 2 tested",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r2_tested_txt",
-   "name": "Card 2 tested on",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_ver",
-   "name": "Card 2 version",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_from",
-   "name": "Card 2 from",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_size",
-   "name": "Card 2 size",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_sha",
-   "name": "Card 2 sha",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r2_state",
-   "name": "Card 2 state",
-   "options": [
-    "none",
-    "install",
-    "update",
-    "installed",
-    "q_install",
-    "q_update",
-    "q_remove",
-    "disabled",
-    "menu"
-   ]
-  },
-  {
-   "key": "r2_act",
-   "name": "Card 2 action",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r2_more",
-   "name": "Card 2 more",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r2_reinstall",
-   "name": "Card 2 reinstall",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r2_remove",
-   "name": "Card 2 remove",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "card3_1",
-   "name": "Plugin 3",
-   "type": "slot",
-   "display": "string"
-  },
-  {
-   "key": "r3_vis",
-   "name": "Card 3 shown",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r3_inst",
-   "name": "Card 3 installed",
-   "options": [
-    "no",
-    "yes"
-   ]
-  },
-  {
-   "key": "r3_init",
-   "name": "Card 3 initials",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_kindtxt",
-   "name": "Card 3 kind",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_meta",
-   "name": "Card 3 meta",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_chan",
-   "name": "Card 3 channel",
-   "options": [
-    "none",
-    "stable",
-    "beta"
-   ]
-  },
-  {
-   "key": "r3_cpu",
-   "name": "Card 3 CPU",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r3_old",
-   "name": "Card 3 old",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r3_tested",
-   "name": "Card 3 tested",
-   "options": [
-    "off",
-    "on"
-   ]
-  },
-  {
-   "key": "r3_tested_txt",
-   "name": "Card 3 tested on",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_ver",
-   "name": "Card 3 version",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_from",
-   "name": "Card 3 from",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_size",
-   "name": "Card 3 size",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_sha",
-   "name": "Card 3 sha",
-   "type": "readout",
-   "display": "string"
-  },
-  {
-   "key": "r3_state",
-   "name": "Card 3 state",
-   "options": [
-    "none",
-    "install",
-    "update",
-    "installed",
-    "q_install",
-    "q_update",
-    "q_remove",
-    "disabled",
-    "menu"
-   ]
-  },
-  {
-   "key": "r3_act",
-   "name": "Card 3 action",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r3_more",
-   "name": "Card 3 more",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r3_reinstall",
-   "name": "Card 3 reinstall",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "r3_remove",
-   "name": "Card 3 remove",
-   "type": "trigger",
-   "momentary": true
-  },
-  {
-   "key": "noop",
-   "name": "Badge",
-   "type": "trigger",
-   "momentary": true
-  }
- ]
+  "name": "Plugin Manager",
+  "params": [
+    {
+      "key": "tab",
+      "name": "View",
+      "options": [
+        "DISCOVER",
+        "INSTALLED",
+        "UPDATES"
+      ]
+    },
+    {
+      "key": "net",
+      "name": "Network",
+      "options": [
+        "online",
+        "offline"
+      ]
+    },
+    {
+      "key": "disk",
+      "name": "Disk used",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "key": "disk_txt",
+      "name": "Disk free",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "upd_badge",
+      "name": "Updates badge",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "upd_count",
+      "name": "Updates",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "problem",
+      "name": "Problem",
+      "options": [
+        "no",
+        "yes"
+      ]
+    },
+    {
+      "key": "problem_txt",
+      "name": "Problem text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "refresh",
+      "name": "Refresh",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "foot",
+      "name": "Footer",
+      "options": [
+        "counts",
+        "warn",
+        "error"
+      ]
+    },
+    {
+      "key": "status",
+      "name": "Status",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "progress",
+      "name": "Progress",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ]
+    },
+    {
+      "key": "update_all",
+      "name": "Update all",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "upd_all",
+      "name": "Update all on",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "apply",
+      "name": "Apply",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "apply_state",
+      "name": "Apply state",
+      "options": [
+        "off",
+        "apply",
+        "preparing",
+        "ready",
+        "retry"
+      ]
+    },
+    {
+      "key": "noop",
+      "name": "Badge",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "search",
+      "name": "Search",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "search_txt",
+      "name": "Search text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "search_set",
+      "name": "Search set",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "search_clear",
+      "name": "Search clear",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb",
+      "name": "Keyboard",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "kb_txt",
+      "name": "Keyboard text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "kb_count",
+      "name": "Keyboard matches",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "kb_1",
+      "name": "Key 1",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_2",
+      "name": "Key 2",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_3",
+      "name": "Key 3",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_4",
+      "name": "Key 4",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_5",
+      "name": "Key 5",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_6",
+      "name": "Key 6",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_7",
+      "name": "Key 7",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_8",
+      "name": "Key 8",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_9",
+      "name": "Key 9",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_0",
+      "name": "Key 0",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_Q",
+      "name": "Key Q",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_W",
+      "name": "Key W",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_E",
+      "name": "Key E",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_R",
+      "name": "Key R",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_T",
+      "name": "Key T",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_Y",
+      "name": "Key Y",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_U",
+      "name": "Key U",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_I",
+      "name": "Key I",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_O",
+      "name": "Key O",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_P",
+      "name": "Key P",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_A",
+      "name": "Key A",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_S",
+      "name": "Key S",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_D",
+      "name": "Key D",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_F",
+      "name": "Key F",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_G",
+      "name": "Key G",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_H",
+      "name": "Key H",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_J",
+      "name": "Key J",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_K",
+      "name": "Key K",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_L",
+      "name": "Key L",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_Z",
+      "name": "Key Z",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_X",
+      "name": "Key X",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_C",
+      "name": "Key C",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_V",
+      "name": "Key V",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_B",
+      "name": "Key B",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_N",
+      "name": "Key N",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_M",
+      "name": "Key M",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_space",
+      "name": "Key Space",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_back",
+      "name": "Key Delete",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_clear",
+      "name": "Key Clear",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "kb_done",
+      "name": "Key Done",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_scroll",
+      "name": "All scroll",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "display": "int",
+      "nudge_pct": 5,
+      "dynamic_display": true
+    },
+    {
+      "key": "a_sb",
+      "name": "All scroll shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "a_up",
+      "name": "All page up",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_down",
+      "name": "All page down",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_upst",
+      "name": "All up shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "a_downst",
+      "name": "All down shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "a_pos",
+      "name": "All position",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "key": "a_empty",
+      "name": "All empty",
+      "options": [
+        "no",
+        "offline",
+        "empty"
+      ]
+    },
+    {
+      "key": "a_empty_txt",
+      "name": "All empty text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_count",
+      "name": "All count",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_ov",
+      "name": "All info",
+      "options": [
+        "off",
+        "on",
+        "note"
+      ]
+    },
+    {
+      "key": "a_note_name",
+      "name": "All note name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_note_txt",
+      "name": "All note text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_note_hp",
+      "name": "All note homepage",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_close",
+      "name": "All info close",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_info_bs",
+      "name": "All info picture strip",
+      "options": [
+        "none",
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "key": "a_info_bf",
+      "name": "All info picture frame",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ]
+    },
+    {
+      "key": "a_info_name",
+      "name": "All info name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_by",
+      "name": "All info by",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_d1",
+      "name": "All info text 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_d2",
+      "name": "All info text 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_d3",
+      "name": "All info text 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_d4",
+      "name": "All info text 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l1",
+      "name": "All info line 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l2",
+      "name": "All info line 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l3",
+      "name": "All info line 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l4",
+      "name": "All info line 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l5",
+      "name": "All info line 5",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l6",
+      "name": "All info line 6",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l7",
+      "name": "All info line 7",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_info_l8",
+      "name": "All info line 8",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_card1_1",
+      "name": "All 1",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "a_r1_vis",
+      "name": "All 1 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "a_r1_img",
+      "name": "All 1 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "a_r1_meta",
+      "name": "All 1 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r1_badges",
+      "name": "All 1 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "a_r1_ver",
+      "name": "All 1 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r1_size",
+      "name": "All 1 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r1_state",
+      "name": "All 1 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "a_r1_act",
+      "name": "All 1 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r1_info",
+      "name": "All 1 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r1_trash",
+      "name": "All 1 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "a_r1_del",
+      "name": "All 1 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r1_reinstall",
+      "name": "All 1 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r1_remove",
+      "name": "All 1 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_card2_1",
+      "name": "All 2",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "a_r2_vis",
+      "name": "All 2 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "a_r2_img",
+      "name": "All 2 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "a_r2_meta",
+      "name": "All 2 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r2_badges",
+      "name": "All 2 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "a_r2_ver",
+      "name": "All 2 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r2_size",
+      "name": "All 2 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r2_state",
+      "name": "All 2 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "a_r2_act",
+      "name": "All 2 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r2_info",
+      "name": "All 2 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r2_trash",
+      "name": "All 2 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "a_r2_del",
+      "name": "All 2 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r2_reinstall",
+      "name": "All 2 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r2_remove",
+      "name": "All 2 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_card3_1",
+      "name": "All 3",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "a_r3_vis",
+      "name": "All 3 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "a_r3_img",
+      "name": "All 3 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "a_r3_meta",
+      "name": "All 3 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r3_badges",
+      "name": "All 3 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "a_r3_ver",
+      "name": "All 3 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r3_size",
+      "name": "All 3 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r3_state",
+      "name": "All 3 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "a_r3_act",
+      "name": "All 3 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r3_info",
+      "name": "All 3 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r3_trash",
+      "name": "All 3 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "a_r3_del",
+      "name": "All 3 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r3_reinstall",
+      "name": "All 3 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r3_remove",
+      "name": "All 3 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_card4_1",
+      "name": "All 4",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "a_r4_vis",
+      "name": "All 4 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "a_r4_img",
+      "name": "All 4 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "a_r4_meta",
+      "name": "All 4 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r4_badges",
+      "name": "All 4 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "a_r4_ver",
+      "name": "All 4 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r4_size",
+      "name": "All 4 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "a_r4_state",
+      "name": "All 4 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "a_r4_act",
+      "name": "All 4 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r4_info",
+      "name": "All 4 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r4_trash",
+      "name": "All 4 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "a_r4_del",
+      "name": "All 4 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r4_reinstall",
+      "name": "All 4 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "a_r4_remove",
+      "name": "All 4 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_scroll",
+      "name": "Instruments scroll",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "display": "int",
+      "nudge_pct": 5,
+      "dynamic_display": true
+    },
+    {
+      "key": "i_sb",
+      "name": "Instruments scroll shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "i_up",
+      "name": "Instruments page up",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_down",
+      "name": "Instruments page down",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_upst",
+      "name": "Instruments up shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "i_downst",
+      "name": "Instruments down shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "i_pos",
+      "name": "Instruments position",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "key": "i_empty",
+      "name": "Instruments empty",
+      "options": [
+        "no",
+        "offline",
+        "empty"
+      ]
+    },
+    {
+      "key": "i_empty_txt",
+      "name": "Instruments empty text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_count",
+      "name": "Instruments count",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_ov",
+      "name": "Instruments info",
+      "options": [
+        "off",
+        "on",
+        "note"
+      ]
+    },
+    {
+      "key": "i_note_name",
+      "name": "Instruments note name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_note_txt",
+      "name": "Instruments note text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_note_hp",
+      "name": "Instruments note homepage",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_close",
+      "name": "Instruments info close",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_info_bs",
+      "name": "Instruments info picture strip",
+      "options": [
+        "none",
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "key": "i_info_bf",
+      "name": "Instruments info picture frame",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ]
+    },
+    {
+      "key": "i_info_name",
+      "name": "Instruments info name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_by",
+      "name": "Instruments info by",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_d1",
+      "name": "Instruments info text 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_d2",
+      "name": "Instruments info text 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_d3",
+      "name": "Instruments info text 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_d4",
+      "name": "Instruments info text 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l1",
+      "name": "Instruments info line 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l2",
+      "name": "Instruments info line 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l3",
+      "name": "Instruments info line 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l4",
+      "name": "Instruments info line 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l5",
+      "name": "Instruments info line 5",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l6",
+      "name": "Instruments info line 6",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l7",
+      "name": "Instruments info line 7",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_info_l8",
+      "name": "Instruments info line 8",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_card1_1",
+      "name": "Instruments 1",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "i_r1_vis",
+      "name": "Instruments 1 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "i_r1_img",
+      "name": "Instruments 1 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "i_r1_meta",
+      "name": "Instruments 1 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r1_badges",
+      "name": "Instruments 1 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "i_r1_ver",
+      "name": "Instruments 1 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r1_size",
+      "name": "Instruments 1 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r1_state",
+      "name": "Instruments 1 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "i_r1_act",
+      "name": "Instruments 1 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r1_info",
+      "name": "Instruments 1 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r1_trash",
+      "name": "Instruments 1 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "i_r1_del",
+      "name": "Instruments 1 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r1_reinstall",
+      "name": "Instruments 1 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r1_remove",
+      "name": "Instruments 1 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_card2_1",
+      "name": "Instruments 2",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "i_r2_vis",
+      "name": "Instruments 2 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "i_r2_img",
+      "name": "Instruments 2 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "i_r2_meta",
+      "name": "Instruments 2 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r2_badges",
+      "name": "Instruments 2 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "i_r2_ver",
+      "name": "Instruments 2 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r2_size",
+      "name": "Instruments 2 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r2_state",
+      "name": "Instruments 2 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "i_r2_act",
+      "name": "Instruments 2 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r2_info",
+      "name": "Instruments 2 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r2_trash",
+      "name": "Instruments 2 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "i_r2_del",
+      "name": "Instruments 2 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r2_reinstall",
+      "name": "Instruments 2 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r2_remove",
+      "name": "Instruments 2 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_card3_1",
+      "name": "Instruments 3",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "i_r3_vis",
+      "name": "Instruments 3 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "i_r3_img",
+      "name": "Instruments 3 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "i_r3_meta",
+      "name": "Instruments 3 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r3_badges",
+      "name": "Instruments 3 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "i_r3_ver",
+      "name": "Instruments 3 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r3_size",
+      "name": "Instruments 3 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r3_state",
+      "name": "Instruments 3 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "i_r3_act",
+      "name": "Instruments 3 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r3_info",
+      "name": "Instruments 3 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r3_trash",
+      "name": "Instruments 3 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "i_r3_del",
+      "name": "Instruments 3 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r3_reinstall",
+      "name": "Instruments 3 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r3_remove",
+      "name": "Instruments 3 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_card4_1",
+      "name": "Instruments 4",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "i_r4_vis",
+      "name": "Instruments 4 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "i_r4_img",
+      "name": "Instruments 4 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "i_r4_meta",
+      "name": "Instruments 4 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r4_badges",
+      "name": "Instruments 4 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "i_r4_ver",
+      "name": "Instruments 4 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r4_size",
+      "name": "Instruments 4 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "i_r4_state",
+      "name": "Instruments 4 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "i_r4_act",
+      "name": "Instruments 4 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r4_info",
+      "name": "Instruments 4 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r4_trash",
+      "name": "Instruments 4 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "i_r4_del",
+      "name": "Instruments 4 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r4_reinstall",
+      "name": "Instruments 4 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "i_r4_remove",
+      "name": "Instruments 4 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_scroll",
+      "name": "Effects scroll",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "display": "int",
+      "nudge_pct": 5,
+      "dynamic_display": true
+    },
+    {
+      "key": "e_sb",
+      "name": "Effects scroll shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "e_up",
+      "name": "Effects page up",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_down",
+      "name": "Effects page down",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_upst",
+      "name": "Effects up shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "e_downst",
+      "name": "Effects down shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "e_pos",
+      "name": "Effects position",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "key": "e_empty",
+      "name": "Effects empty",
+      "options": [
+        "no",
+        "offline",
+        "empty"
+      ]
+    },
+    {
+      "key": "e_empty_txt",
+      "name": "Effects empty text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_count",
+      "name": "Effects count",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_ov",
+      "name": "Effects info",
+      "options": [
+        "off",
+        "on",
+        "note"
+      ]
+    },
+    {
+      "key": "e_note_name",
+      "name": "Effects note name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_note_txt",
+      "name": "Effects note text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_note_hp",
+      "name": "Effects note homepage",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_close",
+      "name": "Effects info close",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_info_bs",
+      "name": "Effects info picture strip",
+      "options": [
+        "none",
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "key": "e_info_bf",
+      "name": "Effects info picture frame",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ]
+    },
+    {
+      "key": "e_info_name",
+      "name": "Effects info name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_by",
+      "name": "Effects info by",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_d1",
+      "name": "Effects info text 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_d2",
+      "name": "Effects info text 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_d3",
+      "name": "Effects info text 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_d4",
+      "name": "Effects info text 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l1",
+      "name": "Effects info line 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l2",
+      "name": "Effects info line 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l3",
+      "name": "Effects info line 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l4",
+      "name": "Effects info line 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l5",
+      "name": "Effects info line 5",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l6",
+      "name": "Effects info line 6",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l7",
+      "name": "Effects info line 7",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_info_l8",
+      "name": "Effects info line 8",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_card1_1",
+      "name": "Effects 1",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "e_r1_vis",
+      "name": "Effects 1 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "e_r1_img",
+      "name": "Effects 1 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "e_r1_meta",
+      "name": "Effects 1 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r1_badges",
+      "name": "Effects 1 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "e_r1_ver",
+      "name": "Effects 1 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r1_size",
+      "name": "Effects 1 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r1_state",
+      "name": "Effects 1 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "e_r1_act",
+      "name": "Effects 1 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r1_info",
+      "name": "Effects 1 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r1_trash",
+      "name": "Effects 1 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "e_r1_del",
+      "name": "Effects 1 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r1_reinstall",
+      "name": "Effects 1 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r1_remove",
+      "name": "Effects 1 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_card2_1",
+      "name": "Effects 2",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "e_r2_vis",
+      "name": "Effects 2 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "e_r2_img",
+      "name": "Effects 2 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "e_r2_meta",
+      "name": "Effects 2 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r2_badges",
+      "name": "Effects 2 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "e_r2_ver",
+      "name": "Effects 2 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r2_size",
+      "name": "Effects 2 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r2_state",
+      "name": "Effects 2 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "e_r2_act",
+      "name": "Effects 2 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r2_info",
+      "name": "Effects 2 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r2_trash",
+      "name": "Effects 2 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "e_r2_del",
+      "name": "Effects 2 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r2_reinstall",
+      "name": "Effects 2 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r2_remove",
+      "name": "Effects 2 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_card3_1",
+      "name": "Effects 3",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "e_r3_vis",
+      "name": "Effects 3 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "e_r3_img",
+      "name": "Effects 3 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "e_r3_meta",
+      "name": "Effects 3 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r3_badges",
+      "name": "Effects 3 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "e_r3_ver",
+      "name": "Effects 3 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r3_size",
+      "name": "Effects 3 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r3_state",
+      "name": "Effects 3 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "e_r3_act",
+      "name": "Effects 3 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r3_info",
+      "name": "Effects 3 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r3_trash",
+      "name": "Effects 3 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "e_r3_del",
+      "name": "Effects 3 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r3_reinstall",
+      "name": "Effects 3 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r3_remove",
+      "name": "Effects 3 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_card4_1",
+      "name": "Effects 4",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "e_r4_vis",
+      "name": "Effects 4 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "e_r4_img",
+      "name": "Effects 4 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "e_r4_meta",
+      "name": "Effects 4 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r4_badges",
+      "name": "Effects 4 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "e_r4_ver",
+      "name": "Effects 4 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r4_size",
+      "name": "Effects 4 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "e_r4_state",
+      "name": "Effects 4 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "e_r4_act",
+      "name": "Effects 4 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r4_info",
+      "name": "Effects 4 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r4_trash",
+      "name": "Effects 4 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "e_r4_del",
+      "name": "Effects 4 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r4_reinstall",
+      "name": "Effects 4 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "e_r4_remove",
+      "name": "Effects 4 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_scroll",
+      "name": "Addins scroll",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "display": "int",
+      "nudge_pct": 5,
+      "dynamic_display": true
+    },
+    {
+      "key": "d_sb",
+      "name": "Addins scroll shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "d_up",
+      "name": "Addins page up",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_down",
+      "name": "Addins page down",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_upst",
+      "name": "Addins up shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "d_downst",
+      "name": "Addins down shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "d_pos",
+      "name": "Addins position",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "key": "d_empty",
+      "name": "Addins empty",
+      "options": [
+        "no",
+        "offline",
+        "empty"
+      ]
+    },
+    {
+      "key": "d_empty_txt",
+      "name": "Addins empty text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_count",
+      "name": "Addins count",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_ov",
+      "name": "Addins info",
+      "options": [
+        "off",
+        "on",
+        "note"
+      ]
+    },
+    {
+      "key": "d_note_name",
+      "name": "Addins note name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_note_txt",
+      "name": "Addins note text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_note_hp",
+      "name": "Addins note homepage",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_close",
+      "name": "Addins info close",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_info_bs",
+      "name": "Addins info picture strip",
+      "options": [
+        "none",
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "key": "d_info_bf",
+      "name": "Addins info picture frame",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ]
+    },
+    {
+      "key": "d_info_name",
+      "name": "Addins info name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_by",
+      "name": "Addins info by",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_d1",
+      "name": "Addins info text 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_d2",
+      "name": "Addins info text 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_d3",
+      "name": "Addins info text 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_d4",
+      "name": "Addins info text 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l1",
+      "name": "Addins info line 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l2",
+      "name": "Addins info line 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l3",
+      "name": "Addins info line 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l4",
+      "name": "Addins info line 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l5",
+      "name": "Addins info line 5",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l6",
+      "name": "Addins info line 6",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l7",
+      "name": "Addins info line 7",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_info_l8",
+      "name": "Addins info line 8",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_card1_1",
+      "name": "Addins 1",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "d_r1_vis",
+      "name": "Addins 1 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "d_r1_img",
+      "name": "Addins 1 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "d_r1_meta",
+      "name": "Addins 1 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r1_badges",
+      "name": "Addins 1 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "d_r1_ver",
+      "name": "Addins 1 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r1_size",
+      "name": "Addins 1 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r1_state",
+      "name": "Addins 1 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "d_r1_act",
+      "name": "Addins 1 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r1_info",
+      "name": "Addins 1 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r1_trash",
+      "name": "Addins 1 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "d_r1_del",
+      "name": "Addins 1 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r1_reinstall",
+      "name": "Addins 1 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r1_remove",
+      "name": "Addins 1 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_card2_1",
+      "name": "Addins 2",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "d_r2_vis",
+      "name": "Addins 2 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "d_r2_img",
+      "name": "Addins 2 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "d_r2_meta",
+      "name": "Addins 2 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r2_badges",
+      "name": "Addins 2 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "d_r2_ver",
+      "name": "Addins 2 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r2_size",
+      "name": "Addins 2 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r2_state",
+      "name": "Addins 2 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "d_r2_act",
+      "name": "Addins 2 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r2_info",
+      "name": "Addins 2 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r2_trash",
+      "name": "Addins 2 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "d_r2_del",
+      "name": "Addins 2 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r2_reinstall",
+      "name": "Addins 2 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r2_remove",
+      "name": "Addins 2 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_card3_1",
+      "name": "Addins 3",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "d_r3_vis",
+      "name": "Addins 3 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "d_r3_img",
+      "name": "Addins 3 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "d_r3_meta",
+      "name": "Addins 3 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r3_badges",
+      "name": "Addins 3 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "d_r3_ver",
+      "name": "Addins 3 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r3_size",
+      "name": "Addins 3 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r3_state",
+      "name": "Addins 3 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "d_r3_act",
+      "name": "Addins 3 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r3_info",
+      "name": "Addins 3 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r3_trash",
+      "name": "Addins 3 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "d_r3_del",
+      "name": "Addins 3 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r3_reinstall",
+      "name": "Addins 3 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r3_remove",
+      "name": "Addins 3 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_card4_1",
+      "name": "Addins 4",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "d_r4_vis",
+      "name": "Addins 4 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "d_r4_img",
+      "name": "Addins 4 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "d_r4_meta",
+      "name": "Addins 4 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r4_badges",
+      "name": "Addins 4 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "d_r4_ver",
+      "name": "Addins 4 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r4_size",
+      "name": "Addins 4 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "d_r4_state",
+      "name": "Addins 4 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "d_r4_act",
+      "name": "Addins 4 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r4_info",
+      "name": "Addins 4 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r4_trash",
+      "name": "Addins 4 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "d_r4_del",
+      "name": "Addins 4 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r4_reinstall",
+      "name": "Addins 4 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "d_r4_remove",
+      "name": "Addins 4 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_scroll",
+      "name": "Companion scroll",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "display": "int",
+      "nudge_pct": 5,
+      "dynamic_display": true
+    },
+    {
+      "key": "p_sb",
+      "name": "Companion scroll shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "p_up",
+      "name": "Companion page up",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_down",
+      "name": "Companion page down",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_upst",
+      "name": "Companion up shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "p_downst",
+      "name": "Companion down shown",
+      "options": [
+        "hidden",
+        "dim",
+        "on"
+      ]
+    },
+    {
+      "key": "p_pos",
+      "name": "Companion position",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "key": "p_empty",
+      "name": "Companion empty",
+      "options": [
+        "no",
+        "offline",
+        "empty"
+      ]
+    },
+    {
+      "key": "p_empty_txt",
+      "name": "Companion empty text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_count",
+      "name": "Companion count",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_ov",
+      "name": "Companion info",
+      "options": [
+        "off",
+        "on",
+        "note"
+      ]
+    },
+    {
+      "key": "p_note_name",
+      "name": "Companion note name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_note_txt",
+      "name": "Companion note text",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_note_hp",
+      "name": "Companion note homepage",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_close",
+      "name": "Companion info close",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_info_bs",
+      "name": "Companion info picture strip",
+      "options": [
+        "none",
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "key": "p_info_bf",
+      "name": "Companion info picture frame",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43"
+      ]
+    },
+    {
+      "key": "p_info_name",
+      "name": "Companion info name",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_by",
+      "name": "Companion info by",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_d1",
+      "name": "Companion info text 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_d2",
+      "name": "Companion info text 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_d3",
+      "name": "Companion info text 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_d4",
+      "name": "Companion info text 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l1",
+      "name": "Companion info line 1",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l2",
+      "name": "Companion info line 2",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l3",
+      "name": "Companion info line 3",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l4",
+      "name": "Companion info line 4",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l5",
+      "name": "Companion info line 5",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l6",
+      "name": "Companion info line 6",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l7",
+      "name": "Companion info line 7",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_info_l8",
+      "name": "Companion info line 8",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_card1_1",
+      "name": "Companion 1",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "p_r1_vis",
+      "name": "Companion 1 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "p_r1_img",
+      "name": "Companion 1 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "p_r1_meta",
+      "name": "Companion 1 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r1_badges",
+      "name": "Companion 1 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "p_r1_ver",
+      "name": "Companion 1 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r1_size",
+      "name": "Companion 1 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r1_state",
+      "name": "Companion 1 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "p_r1_act",
+      "name": "Companion 1 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r1_info",
+      "name": "Companion 1 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r1_trash",
+      "name": "Companion 1 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "p_r1_del",
+      "name": "Companion 1 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r1_reinstall",
+      "name": "Companion 1 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r1_remove",
+      "name": "Companion 1 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_card2_1",
+      "name": "Companion 2",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "p_r2_vis",
+      "name": "Companion 2 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "p_r2_img",
+      "name": "Companion 2 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "p_r2_meta",
+      "name": "Companion 2 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r2_badges",
+      "name": "Companion 2 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "p_r2_ver",
+      "name": "Companion 2 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r2_size",
+      "name": "Companion 2 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r2_state",
+      "name": "Companion 2 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "p_r2_act",
+      "name": "Companion 2 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r2_info",
+      "name": "Companion 2 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r2_trash",
+      "name": "Companion 2 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "p_r2_del",
+      "name": "Companion 2 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r2_reinstall",
+      "name": "Companion 2 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r2_remove",
+      "name": "Companion 2 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_card3_1",
+      "name": "Companion 3",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "p_r3_vis",
+      "name": "Companion 3 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "p_r3_img",
+      "name": "Companion 3 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "p_r3_meta",
+      "name": "Companion 3 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r3_badges",
+      "name": "Companion 3 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "p_r3_ver",
+      "name": "Companion 3 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r3_size",
+      "name": "Companion 3 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r3_state",
+      "name": "Companion 3 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "p_r3_act",
+      "name": "Companion 3 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r3_info",
+      "name": "Companion 3 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r3_trash",
+      "name": "Companion 3 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "p_r3_del",
+      "name": "Companion 3 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r3_reinstall",
+      "name": "Companion 3 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r3_remove",
+      "name": "Companion 3 remove",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_card4_1",
+      "name": "Companion 4",
+      "type": "slot",
+      "display": "string"
+    },
+    {
+      "key": "p_r4_vis",
+      "name": "Companion 4 shown",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    {
+      "key": "p_r4_img",
+      "name": "Companion 4 picture",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110"
+      ]
+    },
+    {
+      "key": "p_r4_meta",
+      "name": "Companion 4 meta",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r4_badges",
+      "name": "Companion 4 badges",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "key": "p_r4_ver",
+      "name": "Companion 4 version",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r4_size",
+      "name": "Companion 4 size",
+      "type": "readout",
+      "display": "string"
+    },
+    {
+      "key": "p_r4_state",
+      "name": "Companion 4 state",
+      "options": [
+        "none",
+        "install",
+        "update",
+        "installed",
+        "q_install",
+        "q_update",
+        "q_remove",
+        "disabled",
+        "menu"
+      ]
+    },
+    {
+      "key": "p_r4_act",
+      "name": "Companion 4 action",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r4_info",
+      "name": "Companion 4 info",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r4_trash",
+      "name": "Companion 4 trash",
+      "options": [
+        "off",
+        "on",
+        "open"
+      ]
+    },
+    {
+      "key": "p_r4_del",
+      "name": "Companion 4 trash tap",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r4_reinstall",
+      "name": "Companion 4 reinstall",
+      "type": "trigger",
+      "momentary": true
+    },
+    {
+      "key": "p_r4_remove",
+      "name": "Companion 4 remove",
+      "type": "trigger",
+      "momentary": true
+    }
+  ]
 }
