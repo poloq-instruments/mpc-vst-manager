@@ -48,7 +48,6 @@ typedef struct {
 #define CATALOG_URL "https://sd88me.github.io/mpc-vst-plugins/catalog.json"   /* tests: a file:// fixture */
 #endif
 #define WORK "/tmp/pluginmgr"
-#define MAXPKG 64
 #define ROWS 3      /* plugin cards per page */
 #ifndef ADDINS_DIR
 #define ADDINS_DIR "/data/mpc-addins"   /* one folder per addin id, as mpc-vst-plugins' addin installer lays them out */
@@ -78,7 +77,8 @@ typedef struct {
     pthread_mutex_t mu;
     pthread_cond_t cv;
     int quit, job, busy, ready;   /* ready: a prepared apply.sh waits for the second APPLY press */
-    pkg_t pkg[MAXPKG];
+    pkg_t *pkg;                   /* the catalog, as many entries as it has (grown while parsing, swapped in by a refresh) */
+    int *view, nview;             /* pkg indexes of the cards in the current tab and filter, rebuilt when either changes */
     int npkg, page, sel, menu;    /* sel, menu: pkg indexes (-1 none); menu = the card showing Reinstall/Remove */
     int tab, kindf;               /* 0 discover, 1 installed, 2 updates; 0 all, 1 instruments, 2 effects, 3 addins */
     int online, loaded, failed;   /* catalog reachable; ever loaded; the last APPLY failed (offer RETRY) */
@@ -90,6 +90,8 @@ typedef struct {
     char status[160];
     device_t *dev;   /* probed by the worker on each refresh */
 } mgr_t;
+
+static void rebuild_view(mgr_t *m);
 
 /* ---- small helpers ---- */
 
@@ -443,7 +445,7 @@ static const char *pkg_member(const char *k, const char *v, void *ud) {
     return NULL;
 }
 
-typedef struct { pkg_t *pkg; int n; } list_t;
+typedef struct { pkg_t *pkg; int n, cap; } list_t;
 
 static const char *top_member(const char *k, const char *v, void *ud) {
     list_t *l = ud;
@@ -455,7 +457,16 @@ static const char *top_member(const char *k, const char *v, void *ud) {
         memset(&x, 0, sizeof x);
         p = jobject(p, pkg_member, &x);
         if (!p) return NULL;
-        if (x.id[0] && l->n < MAXPKG) l->pkg[l->n++] = x;
+        if (x.id[0]) {
+            if (l->n == l->cap) {   /* no fixed limit: the catalog outgrew 64 entries (it stopped at "M") */
+                int cap = l->cap ? l->cap * 2 : 128;
+                pkg_t *g = realloc(l->pkg, sizeof *g * cap);
+                if (!g) return NULL;
+                l->pkg = g;
+                l->cap = cap;
+            }
+            l->pkg[l->n++] = x;
+        }
         p = ws(p);
         if (*p == ',') { p = ws(p + 1); continue; }
         return *p == ']' ? p + 1 : NULL;
@@ -773,11 +784,10 @@ static void do_refresh(mgr_t *m) {
     say(m, OK, "Loading the plugin catalog\xe2\x80\xa6");
     sink_t s = {0};
     int got = fetch(m, CATALOG_URL, &s) == 0;
-    pkg_t *tmp = calloc(MAXPKG, sizeof *tmp);
-    list_t l = {tmp, 0};
-    if (!got || !tmp || !jobject(s.buf, top_member, &l)) {
+    list_t l = {0};
+    if (!got || !jobject(s.buf, top_member, &l)) {
         free(s.buf);
-        free(tmp);
+        free(l.pkg);
         pthread_mutex_lock(&m->mu);
         m->online = 0;
         say_locked(m, ERR, got ? "The plugin catalog could not be read" : "Can't reach the plugin catalog");
@@ -785,6 +795,13 @@ static void do_refresh(mgr_t *m) {
         return;
     }
     free(s.buf);
+    pkg_t *tmp = l.pkg;
+    int *view = calloc(l.n ? l.n : 1, sizeof *view);
+    if (!view) {
+        free(tmp);
+        say(m, ERR, "The plugin catalog could not be read");
+        return;
+    }
     probe_device(m->dev);
     write_report(m->dev);
     scan_installed(m->dev, tmp, l.n);
@@ -804,8 +821,12 @@ static void do_refresh(mgr_t *m) {
     for (int i = 0; i < l.n; i++)   /* keep what was queued and selected */
         for (int j = 0; j < m->npkg; j++)
             if (!strcmp(tmp[i].id, m->pkg[j].id)) tmp[i].queued = m->pkg[j].queued;
-    memcpy(m->pkg, tmp, sizeof(pkg_t) * l.n);
+    pkg_t *old = m->pkg;
+    int *oldview = m->view;
+    m->pkg = tmp;
     m->npkg = l.n;
+    m->view = view;
+    rebuild_view(m);
     m->sel = m->menu = -1;
     for (int i = 0; i < l.n; i++) if (!strcmp(tmp[i].id, sel)) m->sel = i;
     m->online = m->loaded = 1;
@@ -814,7 +835,8 @@ static void do_refresh(mgr_t *m) {
     if (m->dev->problem[0]) say_locked(m, ERR, "Installing is turned off on this MPC (%s)", m->dev->problem);
     else { m->sticky = 0; m->rev++; }
     pthread_mutex_unlock(&m->mu);
-    free(tmp);
+    free(old);
+    free(oldview);
 }
 
 /* Download, check and unpack every queued package, then write apply.sh. Nothing on the device changes yet. */
@@ -899,7 +921,10 @@ static void prepare(mgr_t *m, pkg_t *q) {
 }
 
 static void do_prepare(mgr_t *m) {
-    pkg_t *q = calloc(MAXPKG, sizeof *q);   /* 64 KB: kept off MPC's small thread stacks */
+    pthread_mutex_lock(&m->mu);
+    int n = m->npkg;   /* only this worker thread changes npkg (do_refresh), so it holds until prepare() copies */
+    pthread_mutex_unlock(&m->mu);
+    pkg_t *q = calloc(n ? n : 1, sizeof *q);   /* on the heap: kept off MPC's small thread stacks */
     if (q) prepare(m, q);
     free(q);
 }
@@ -954,10 +979,12 @@ static int has_update(const pkg_t *p) {   /* a known older version, or an old-la
     return p->url[0] && installed(p) && (p->legacy || (strcmp(p->installed, "?") && strcmp(p->installed, p->latest)));
 }
 
-/* the cards of the current tab and filter; build-yourself plugins (no download) are left out: not plug and play */
-static int visible(const mgr_t *m, int *idx) {
-    int n = 0;
-    for (int i = 0; i < m->npkg; i++) {
+/* the cards of the current tab and filter; build-yourself plugins (no download) are left out: not plug and play.
+ * Called with mu held, after a refresh and on a tab or filter change: what decides it (kind, url, installed, latest)
+ * only changes with a refresh. view has room for npkg entries. */
+static void rebuild_view(mgr_t *m) {
+    int n = 0, *idx = m->view;
+    for (int i = 0; idx && i < m->npkg; i++) {
         const pkg_t *p = &m->pkg[i];
         if (!p->url[0]) continue;
         if (m->kindf == 1 && strcmp(p->kind, "instrument")) continue;
@@ -967,7 +994,7 @@ static int visible(const mgr_t *m, int *idx) {
         if (m->tab == 2 && !has_update(p)) continue;
         idx[n++] = i;
     }
-    return n;
+    m->nview = n;
 }
 
 enum { S_NONE, S_INSTALL, S_UPDATE, S_INSTALLED, S_Q_INSTALL, S_Q_UPDATE, S_Q_REMOVE, S_DISABLED, S_MENU };
@@ -1078,6 +1105,8 @@ static void mgr_destroy(void *inst) {
     pthread_mutex_unlock(&m->mu);
     pthread_join(m->th, NULL);
     free(m->dev);
+    free(m->pkg);
+    free(m->view);
     free(m);
 }
 
@@ -1098,11 +1127,12 @@ static void mgr_set_param(void *inst, const char *key, const char *val) {
     mgr_t *m = inst;
     double v = atof(val);
     pthread_mutex_lock(&m->mu);
-    int idx[MAXPKG], nv = visible(m, idx), pages = nv ? (nv + ROWS - 1) / ROWS : 1;
+    int *idx = m->view, nv = m->nview, pages = nv ? (nv + ROWS - 1) / ROWS : 1;
     int busy = m->busy == J_PREPARE || m->busy == J_LAUNCH;
     if (!strcmp(key, "tab") || !strcmp(key, "kind")) {   /* option params: the index as a number */
         int o = (int)(v + 0.5);
         if (key[0] == 't') m->tab = o; else m->kindf = o;
+        rebuild_view(m);
         m->page = 0;
         m->menu = -1;
     } else if (!strncmp(key, "card", 4)) {   /* a tap anywhere on a card selects it (both toggle directions) */
@@ -1147,7 +1177,7 @@ static void mgr_set_param(void *inst, const char *key, const char *val) {
 static int mgr_get_param(void *inst, const char *key, char *b, int n) {
     mgr_t *m = inst;
     pthread_mutex_lock(&m->mu);
-    int idx[MAXPKG], nv = visible(m, idx), pages = nv ? (nv + ROWS - 1) / ROWS : 1, ok = 1;
+    int *idx = m->view, nv = m->nview, pages = nv ? (nv + ROWS - 1) / ROWS : 1, ok = 1;
     if (m->page >= pages) m->page = pages - 1;
     int upd = count_updates(m), q = count_queued(m), busy = m->busy == J_PREPARE || m->busy == J_LAUNCH;
     if (!strcmp(key, "display_rev")) snprintf(b, n, "%u", m->rev);
