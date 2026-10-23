@@ -1,5 +1,6 @@
 [
   {"version": "1.0.0", "device": "Akai MPC One", "firmware": "MPC OS 3.9.1", "date": "2026-10-01"},
   {"version": "1.0.0", "device": "Akai MPC Key 37", "firmware": "MPC OS 3.9.1", "date": "2026-10-03"},
-  {"version": "1.2.0", "device": "Akai MPC One", "firmware": "MPC OS 3.9.1", "date": "2026-10-11"}
+  {"version": "1.2.0", "device": "Akai MPC One", "firmware": "MPC OS 3.9.1", "date": "2026-10-11"},
+  {"version": "1.2.0", "device": "MPC Live III (Gen2)", "firmware": "MPC OS 3.9.1", "date": "2026-10-23"}
 ]

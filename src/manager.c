@@ -682,7 +682,11 @@ static const char *bad_fs(const char *path, char *why, size_t n) {
         if (strncmp(path, mnt, l) || (path[l] && path[l] != '/' && l > 1) || l < best) continue;
         best = l;
         int rw = !strncmp(opts, "rw", 2), exec = !strstr(opts, "noexec");
-        int fs = FS_ANY || !strcmp(type, "ext4") || !strcmp(type, "ext3") || !strcmp(type, "f2fs") || !strcmp(type, "btrfs");
+        /* Gen2 (aarch64: Live III, confirmed; One G2/Key(s) G2 assumed to match): the internal /nvme partition is
+         * exFAT, not ext4 -- it is still the device's own fixed storage, so it belongs on this list, not just a
+         * removable card's filesystem. */
+        int fs = FS_ANY || !strcmp(type, "ext4") || !strcmp(type, "ext3") || !strcmp(type, "f2fs") || !strcmp(type, "btrfs")
+                 || !strcmp(type, "exfat");
         ok = rw && exec && fs;
         snprintf(why, n, "%s is %s%s%s", mnt, type, rw ? "" : ", read-only", exec ? "" : ", noexec");
     }
@@ -728,14 +732,21 @@ static void probe_device(device_t *d) {
     memset(d, 0, sizeof *d);
     struct utsname u;
     snprintf(d->arch, sizeof d->arch, "%s", uname(&u) == 0 ? u.machine : "?");
-    DIR *sd = opendir("/media/az01-internal/Settings");   /* the same glob as install.sh */
+    int gen2 = !strcmp(d->arch, "aarch64");
+    /* Gen2 (aarch64: Live III, confirmed; One G2/Key(s) G2 assumed to match): Settings lives under /data, not
+     * /media/az01-internal (that path doesn't exist at all on a verity rootfs with no /sdcard). Same two-glob
+     * fallback as mpc-store.sh. */
+    static const char *settings_dirs[] = {"/media/az01-internal/Settings", "/data/Settings"};
     struct dirent *e;
-    while (sd && (e = readdir(sd)) && !d->settings[0]) {
-        char p[300];
-        snprintf(p, sizeof p, "/media/az01-internal/Settings/%s/MPC.settings", e->d_name);
-        if (e->d_name[0] != '.' && is_file(p)) snprintf(d->settings, sizeof d->settings, "%s", p);
+    for (int si = 0; si < 2 && !d->settings[0]; si++) {
+        DIR *sd = opendir(settings_dirs[si]);
+        while (sd && (e = readdir(sd)) && !d->settings[0]) {
+            char p[300];
+            snprintf(p, sizeof p, "%s/%s/MPC.settings", settings_dirs[si], e->d_name);
+            if (e->d_name[0] != '.' && is_file(p)) snprintf(d->settings, sizeof d->settings, "%s", p);
+        }
+        if (sd) closedir(sd);
     }
-    if (sd) closedir(sd);
     char *x = d->settings[0] ? slurp(d->settings, 4 << 20) : NULL;
     if (x) {
         char *a = strstr(x, "<SynthContentLocations>"), *b = a ? strstr(a, "</SynthContentLocations>") : NULL;
@@ -749,7 +760,8 @@ static void probe_device(device_t *d) {
             char *k = p + 13, *q = strchr(k, '"');   /* past '<VALUE name="' */
             if (q && strlen(d->keys) + (size_t)(q - k) + 2 < sizeof d->keys) strncat(d->keys, k, q - k), strcat(d->keys, " ");
         }
-        a = strstr(x, "<VALUE name=\"pluginList-arm\">");
+        /* Gen2 (aarch64) keeps its own plugin list, pluginList-arm-64bit, separate from pluginList-arm */
+        a = strstr(x, gen2 ? "<VALUE name=\"pluginList-arm-64bit\">" : "<VALUE name=\"pluginList-arm\">");
         b = a ? strstr(a, "</VALUE>") : NULL;
         for (char *p = a; b && d->nent < 128 && (p = strstr(p, "<PLUGIN ")) && p < b; p++) {
             char *q = strstr(p, "/>");
@@ -762,11 +774,12 @@ static void probe_device(device_t *d) {
         }
         free(x);
     }
-    /* internal storage first (One: /media/az01-internal, Force: /sdcard = /media/az01-internal-sd): a plugin on a USB
-     * stick or card disappears with it; any other good location only as a last resort */
+    /* internal storage first (One: /media/az01-internal, Force: /sdcard = /media/az01-internal-sd, Gen2: /nvme): a
+     * plugin on a USB stick or card disappears with it; any other good location only as a last resort */
     for (int pass = 0; pass < 2; pass++)
         for (int i = 0; i < d->nloc && !d->target[0]; i++) {
-            int internal = !strncmp(d->loc[i], "/media/az01-internal", 20) || !strncmp(d->loc[i], "/sdcard/", 8);
+            int internal = !strncmp(d->loc[i], "/media/az01-internal", 20) || !strncmp(d->loc[i], "/sdcard/", 8)
+                            || !strncmp(d->loc[i], "/nvme/", 6);
             if ((pass || internal) && good_target(d->loc[i])) snprintf(d->target, sizeof d->target, "%s", d->loc[i]);
         }
     if (d->target[0]) snprintf(d->via, sizeof d->via, "SynthContentLocations");
@@ -784,8 +797,8 @@ static void probe_device(device_t *d) {
         if (sl && strstr(sl, " - VST - ") && (*sl = 0, good_target(cand)))
             snprintf(d->target, sizeof d->target, "%s", cand), snprintf(d->via, sizeof d->via, "an installed plugin");
     }
-    static const char *defaults[] = {"/media/az01-internal/Synths", "/sdcard/Synths"};
-    for (int i = 0; i < 2 && !d->target[0]; i++)
+    static const char *defaults[] = {"/media/az01-internal/Synths", "/sdcard/Synths", "/nvme/Synths"};
+    for (int i = 0; i < 3 && !d->target[0]; i++)
         if (good_target(defaults[i])) snprintf(d->target, sizeof d->target, "%s", defaults[i]), snprintf(d->via, sizeof d->via, "default");
     for (size_t l = strlen(d->target); l > 1 && d->target[l - 1] == '/'; ) d->target[--l] = 0;
     /* the manager's own record of versions it installed, next to the Settings folder */
@@ -1065,7 +1078,7 @@ static void do_prepare(mgr_t *m) {
 static void do_launch(mgr_t *m) {
     say(m, OK, "Restarting MPC\xe2\x80\xa6 it will be back in a few seconds");
     logf_("launching apply.sh");
-#ifdef __arm__
+#if defined(__arm__) || defined(__aarch64__)
     if (m->dev->systemd_run) {
         char unit[64];
         snprintf(unit, sizeof unit, "--unit=pluginmgr-apply-%ld", (long)time(NULL));

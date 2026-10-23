@@ -11,6 +11,7 @@
     "HAS_DISPLAY_REV": 1,
     "PARAM_TEXT_MAX": 128
   },
+  "targets": ["armv7", "aarch64"],
   "build": {
     "root": "..",
     "sources": [

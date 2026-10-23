@@ -82,7 +82,7 @@ works from the restart that installs it).
 | MPC Key 37 (Gen1, MPC OS 3.9.1) | works: install, remove, progress, restart, addins, browser tile ([report](docs/tests/mpc-key37-2026-10-03.md)) |
 | Force (Gen1) | expected to work (same userland; `/sdcard/Synths` layout covered by an offline test); needs a device test |
 | MPC Live / Live II / X / Key 61 (Gen1) | expected to work; needs a device test |
-| Gen2 (64-bit, e.g. Live III) | not yet: needs an aarch64 build of this plugin and of the catalog plugins |
+| Gen2 (aarch64: Live III, One G2, Key(s) G2) | aarch64 build added (`vst.json` targets armv7+aarch64); device probe now finds `/data/Settings`, the exFAT `/nvme/Synths` drive and the `pluginList-arm-64bit` entries; offline-tested only so far (fake Gen2 device + aarch64/QEMU host test) -- still needs a real Gen2 device test, and needs each catalog plugin to ship its own aarch64 build too |
 
 Tested another model? See [TESTING.md](TESTING.md) and open a PR with the results.
 
